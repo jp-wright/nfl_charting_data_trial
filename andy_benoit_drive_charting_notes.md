@@ -3,27 +3,27 @@
 #### Motions:
 There's a difference between shifts and motions. DO NOT label shifts, they're not considered part of the actual play. Motions take place when a single player changes his position in the formation before the ball is snapped. Shifts are when multiple players move to new positions before the rest of the offense needs to get set.
 
-Simplified motion labeling: [Position] [in/out/bk/orbit]. "TE in", "WR in", "RB out", "TE bk", "WR bk", etc.
+Simplified motion labeling: [Position] [in/out/bk/oRBit]. "TE in", "WR in", "RB out", "TE bk", "WR bk", etc.
 
 
 #### Formations and WR splits:
-Label formations left to right. So trips left, single wr right, single rb would be: 3x1, singleback
+Label formations left to right. So trips left, single WR right, single RB would be: 3x1, singleback
 
-+ Closed = When there's a TE on the line but no wr's to that side, "closed L".
++ Closed = When there's a TE on the line but no WR's to that side, "closed L".
 + Dual TE LOS = when 2 TE's are lined up next to each other on the LOS. when there's 3 TE, call it "triple".
 + Bunch = when 3 receivers are grouped close togher, often in a triangular formation, usually in a minus split.
 + Stack = when 2 receivers are aligned one in front of the other.
 + Couple = when 2 receivers are close together, but are not stacked.
 + I-Form = two RB's, or a TE and a RB, aligned in a straight line behind the QB.
-+ I-Form offset = when 2 rb's are behind the qb, but the fb is off-center, either right or left.
-+ F-form = 3 rb's in backfield (fullhouse)
-+ Shotgun offset L/R= qb in shotgun with a rb to one side, either right or left.
-+ Shotgun 2 RB = qb in shotgun with a rb on each side.
-+ Pistol = when qb is in a short shotgun with rb directly behind him
-+ Pistol 2 RB = when qb is in short shotgun with a rb behind him and another rb to either side.
-+ Pistol 3 RB = qb in short shotgun, rb behind him, and a rb on each side of the qb.
++ I-Form offset = when 2 RB's are behind the QB, but the fb is off-center, either right or left.
++ F-form = 3 RB's in backfield (fullhouse)
++ Shotgun offset L/R= QB in shotgun with a RB to one side, either right or left.
++ Shotgun 2 RB = QB in shotgun with a RB on each side.
++ Pistol = when QB is in a short shotgun with RB directly behind him
++ Pistol 2 RB = when QB is in short shotgun with a RB behind him and another RB to either side.
++ Pistol 3 RB = QB in short shotgun, RB behind him, and a RB on each side of the QB.
 + Unbl OL = when there's only 1 lineman to one side of the C.
-+ Wildcat = When a wr is in the QB spot taking a direct snap while the QB is out wide.
++ Wildcat = When a WR is in the QB spot taking a direct snap while the QB is out wide.
 + 2 RB Wildcat = When there are 2 RB's in backfield taking a direct snap with QB out wide.
 
 WR splits, their distance away from the ball in the formation, can be very subtle. There are 3 kinds:
@@ -35,7 +35,7 @@ WR splits, their distance away from the ball in the formation, can be very subtl
 Split symbols for the left side prefix the number of receivers. Split symbols for the right side suffix the number of receivers.
 + Example: "+2x2+"
 
-So, 12 personnel with 2 TE's on the line on the left, with 2 wr's on the right, the farthest one outside the numbers, with the QB in shotgun and the RB to his right would be: "-2x2+", closed L, dual TE LOS, shotgun offset L".
+So, 12 personnel with 2 TE's on the line on the left, with 2 WR's on the right, the farthest one outside the numbers, with the QB in shotgun and the RB to his right would be: "-2x2+", closed L, dual TE LOS, shotgun offset L".
 
 + The hash marks and the numbers on the field are the landmarks used to determine splits. This is where subtlety comes into play.
 + When the ball is between the hash marks, outside the numbers is "+", inside the numbers is "-", and on the numbers is "\*".
@@ -55,7 +55,7 @@ Lead Block is if a blocker lead blocks toward the play side. List by position, O
 
 Run area is labeled by the design of the play, not the result. This means that execution and decision making by the RB can cause a different result than what was designed.
 
-+ OR = outside right, beyond the farthest blocker, typically on tosses and sweeps. Look at the rb's shoulders as he takes the handoff, are they naturally facing the sideline?
++ OR = outside right, beyond the farthest blocker, typically on tosses and sweeps. Look at the RB's shoulders as he takes the handoff, are they naturally facing the sideline?
 + IR = inside right, inside the farthest blocker, usually an OT or TE, but outside the outer shoulder of the RG.
 + M = between the outer shoulders of each G.
 + IL = inside left, inside the farthest blocker, usually an OT or TE, but outside the outer shoulder of the LG.
@@ -68,7 +68,7 @@ Explosive plays are highlighted in yellow:
 
 Pass area is broken up into 9 categories:
 + LS = left sideline, outside the numbers
-+ Swing L = typically a rb, running outside toward the numbers and behind the LOS.
++ Swing L = typically a RB, running outside toward the numbers and behind the LOS.
 + WR Screen L = screen left, usually a receiver outside that takes an immediate pass on the LOS.
 + LM = left middle, between the numbers and left hash.
 + M = between the hash marks.
@@ -94,9 +94,9 @@ If back stack, label it: "(L- SB)".
 If receiver is part of a couple, label: "(L- CI)" and "(L- CO)", etc.  
 
 
-Trips is when 3 receivers are out wide to one side, but aren't close enough to be a bunch, couple, or stack.
-For LOS TE's: label it "(L LOS TE, 3)", etc.
-For RB's: "(L RB, 2)", etc. If RB is directly behind QB, then "(RB 0)".
+Trips is when 3 receivers are out wide to one side, but aren't close enough to be a bunch, couple, or stack.  
+For LOS TE's: label it "(L LOS TE, 3)", etc.  
+For RB's: "(L RB, 2)", etc. If RB is directly behind QB, then "(RB 0)".  
 
 Catch: Catch, Inc., PD (pass deflection), LOS PD [player last name], INT [player last name].
 
