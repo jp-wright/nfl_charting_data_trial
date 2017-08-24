@@ -24,7 +24,9 @@
 + Bk = Back, motion from the line of scrimmage into the backfield.
 + Orbit = When a receiver motions and then returns to his original position in the formation.
 
-#### TARGET: [Player Name] (“L/R”, “1/2/3/4”)
+#### TARGET:
+[Player Name] (“L/R”, “1/2/3/4”)  
+
 This column annotates the receiver targeted and his position along the formation at the time of the snap.
 + “L” = Left
 + “R” = Right

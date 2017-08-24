@@ -1,10 +1,10 @@
 import pandas as pd
 import numpy as np
-import re
 import datetime as dte
 
 
 def load_data():
+    """There is extraneous data after column 25"""
     def clean_col_names(df):
         if 'Gain' and 'Depth' not in df.columns:
             df.columns = df.loc[0].values
@@ -14,30 +14,53 @@ def load_data():
         df.columns = [col.replace(' ', '_') for col in df.columns]
         return df
 
+    def drop_empty_rows(df):
+        df.dropna(axis=0, thresh=12, inplace=True)
+        return df
 
+    df = pd.read_csv('film_charting_stafford_2016.csv', usecols=tuple([col for col in range(25)]))
+    # df = pd.read_csv('film_charting_seahawks_3x1_sets.csv', usecols=tuple([col for col in range(25)]))
+    # df = pd.read_csv('film_charting_packers_bears_week_7.csv', usecols=tuple([col for col in range(25)]))
+    # df = pd.read_csv('film_charting_broncos_raiders_week_9.csv', usecols=tuple([col for col in range(25)]))
+    df = clean_col_names(df)
+    df = drop_empty_rows(df)
+    df = fix_nans_dtypes(df)
+    return df
+
+
+def fix_nans_dtypes(df):
     def fill_col_nans(df):
-        """required to have a string instead of np.nan, which is a float, in order to do string parsing in later functions."""
+        """Certain cols required to have a string instead of np.nan, which is a float, in order to do string parsing in later functions."""
+
         ## Change NaN into str='N/A' b/c can't index in with NaN (float)
         for col in ['Formation', 'Personnel', 'Target', 'Runner', 'Catch']:
             df[col].fillna('N/A', inplace=True)
         return df
 
-
     def fix_dtypes(df):
-        for col in ['Series', 'Play', 'Quarter', 'Down', 'POS']:
-            df[col] = df[col].astype(int)
+        """Other cols that need to be numeric must be converted after some parsing in their own functions"""
+        for col in ['Series', 'Play', 'Quarter', 'Down', 'POS', 'Gain']:
+            ## OT is str, set = 5 for 5th quarter
+            if 'OT' in df['Quarter'].unique().tolist():
+                df.loc[df['Quarter'] == 'OT', 'Quarter'] = '5'
+
+            ## 2-pt Conv are 'undowned', set = 0 for int dtype
+            # if pd.isnull(df['Down']).any():
+            #     df.loc[pd.isnull(df['Down']), 'Down'] = 0
+
+            try:
+                df[col] = df[col].astype(float)
+            except KeyError:
+                print("{c} is not in columns; bypassing.".format(c=col))
         return df
 
-    """There is extraneous data after column 25"""
-    df = pd.read_csv('film_charting_seahawks_3x1_sets.csv', usecols=tuple([col for col in range(25)]))
-    # df = pd.read_csv('film_charting_broncos_raiders_week_9.csv', usecols=tuple([col for col in range(25)]))
-    df = clean_col_names(df)
     df = fill_col_nans(df)
     df = fix_dtypes(df)
     return df
 
 
-def parse_data(df):
+
+def parse_data_into_new_cols(df):
     def add_col_goalline(df):
         df['Goal_Line'] = [1 if 'G' in str(dist) else 0 for dist in df['Distance']]
         return df
@@ -45,6 +68,7 @@ def parse_data(df):
 
     def clean_col_distance(df):
         df['Distance'] = df['Distance'].str.extract('(\d+)', expand=False)
+        df['Distance'] = df['Distance'].astype(float)
         return df
 
 
@@ -75,12 +99,17 @@ def parse_data(df):
 
     def add_col_net_gain(df):
         """Net Gain takes into account yards gained or lost by penalties as well as plays"""
-        for s in df['Series'].unique():
-            series_mask = df['Series'] == s
-            dfs = df[series_mask]
-            df.loc[series_mask, 'Net_Gain'] = df.loc[series_mask, 'LOS_to_Goal'] - df.loc[series_mask, 'LOS_to_Goal'].shift(-1)
-            df.loc[dfs.index[-1], 'Net_Gain'] = df.loc[dfs.index[-1], 'Gain']
-        df['Net_Gain'] = df['Net_Gain'].astype(int)
+        if 'Series' in df.columns:
+            for s in df['Series'].unique():
+                series_mask = df['Series'] == s
+                dfs = df[series_mask]
+                df.loc[series_mask, 'Net_Gain'] = df.loc[series_mask, 'LOS_to_Goal'] - df.loc[series_mask, 'LOS_to_Goal'].shift(-1)
+                df.loc[dfs.index[-1], 'Net_Gain'] = df.loc[dfs.index[-1], 'Gain']
+            df['Net_Gain'] = df['Net_Gain'].astype(int)
+        else:
+            pen_yards = df['Penalty'].str.extract('(\d+)$', expand=False).astype(float)
+            pen_yards.fillna(0, inplace=True)
+            df['Net_Gain'] = df['Gain'] + pen_yards
         return df
 
 
@@ -226,7 +255,7 @@ def parse_data(df):
     def add_col_sack_TFL(df):
         kneel_mask = df['Play_Type'].str.lower().str.contains('kneel')
         sack_mask = df['Catch'].str.lower().str.contains('sack')
-        tfl_mask = df['Net_Gain'] < 0
+        tfl_mask = df['Net_Gain'] < 0 if 'Net_Gain' in df.columns else df['Gain'] < 0
 
         df.loc[((sack_mask) | (tfl_mask)) & ~(kneel_mask), 'Sack_TFL'] = 1
         df.loc[~((sack_mask) | (tfl_mask)) | (kneel_mask), 'Sack_TFL'] = 0
@@ -235,10 +264,32 @@ def parse_data(df):
 
     def add_col_sack_TFL_yards(df):
         kneel_mask = df['Play_Type'].str.lower().str.contains('kneel')
-        loss_mask = (df['Net_Gain'] < 0)
         sack_mask = df['Catch'].str.lower().str.contains('sack')
+        loss_mask = df['Net_Gain'] < 0 if 'Net_Gain' in df.columns else df['Gain'] < 0
 
         df.loc[((sack_mask) | (loss_mask)) & ~(kneel_mask), 'Sack_TFL_Yards'] = df.loc[((sack_mask) | (loss_mask)) & ~(kneel_mask), 'Gain']
+        return df
+
+
+    def add_col_penalty_team(df):
+        pen_yards = df['Penalty'].str.extract('(\d+)$', expand=False).astype(float)
+        off_mask = pen_yards < 0
+        def_mask = pen_yards > 0
+
+        df.loc[off_mask, 'Penalty_Team'] = 'Offense'
+        df.loc[def_mask, 'Penalty_Team'] = 'Defense'
+        return df
+
+
+    def add_col_penalty_type(df):
+        df['Penalty_Type'] = df['Penalty'].str.split(',', expand=True).loc[:, 0]
+        return df
+
+
+    def add_col_penalty_yards(df):
+        pen_yards = df['Penalty'].str.extract('(\d+)$', expand=False).astype(float)
+        pen_yards.fillna(0, inplace=True)
+        df['Penalty_Yards'] = pen_yards
         return df
 
 
@@ -253,11 +304,54 @@ def parse_data(df):
         return df
 
 
-    def void_kneeldown_yards(df):
-        kneel_mask = df['Play_Type'].str.lower().str.contains('kneel')
-        df.loc[kneel_mask, ['Gain', 'Net_Gain']] = np.nan
+    def add_cols_explosive_passes_and_yards(df):
+        big_passes = (df['Play_Type'].str.lower().str.contains('pass')) & (df['Gain'] >= 20)
+        df.loc[big_passes, 'Explosive_Pass'] = 1
+        df.loc[~big_passes, 'Explosive_Pass'] = 0
+        df.loc[big_passes, 'Explosive_Pass_Yd'] = df.loc[big_passes, 'Gain']
         return df
 
+
+    def add_cols_explosive_runs_and_yards(df):
+        big_runs = (df['Play_Type'].str.lower().str.contains('run')) & (df['Gain'] >= 12)
+        df.loc[big_runs, 'Explosive_Run'] = 1
+        df.loc[~big_runs, 'Explosive_Run'] = 0
+        df.loc[big_runs, 'Explosive_Run_Yd'] = df.loc[big_runs, 'Gain']
+        return df
+
+
+    def add_col_successful_passes(df):
+        second_down = (df['Down'] == 2) & (df['Play_Type'].str.lower().str.contains('pass'))
+        third_down = (df['Down'] == 3) & (df['Play_Type'].str.lower().str.contains('pass'))
+        success_pass_2nd = df.loc[second_down, 'Gain'] >= (0.5 * df.loc[second_down, 'Distance'])
+        success_pass_3rd = df.loc[third_down, 'Gain'] >= df.loc[third_down, 'Distance']
+        success_2nd_true = df.loc[second_down].loc[success_pass_2nd]
+        success_3rd_true = df.loc[third_down].loc[success_pass_3rd]
+
+        success_pass = set(success_2nd_true.index).union(set(success_3rd_true.index))
+        df.loc[success_pass, 'Successful_Pass'] = 1
+        return df
+
+
+    def add_col_successful_runs(df):
+        second_down = (df['Down'] == 2) & (df['Play_Type'].str.lower().str.contains('run'))
+        third_down = (df['Down'] == 3) & (df['Play_Type'].str.lower().str.contains('run'))
+        success_run_2nd = df.loc[second_down, 'Gain'] >= (0.5 * df.loc[second_down, 'Distance'])
+        success_run_3rd = df.loc[third_down, 'Gain'] >= df.loc[third_down, 'Distance']
+        success_2nd_true = df.loc[second_down].loc[success_run_2nd]
+        success_3rd_true = df.loc[third_down].loc[success_run_3rd]
+
+        success_run = set(success_2nd_true.index).union(set(success_3rd_true.index))
+        df.loc[success_run, 'Successful_Run'] = 1
+        return df
+
+
+    def void_kneeldown_yards(df):
+        kneel_mask = df['Play_Type'].str.lower().str.contains('kneel')
+        df.loc[kneel_mask, ['Gain']] = np.nan
+        if 'Net_Gain' in df.columns:
+            df.loc[kneel_mask, ['Net_Gain']] = np.nan
+        return df
 
 
     df = add_col_off_team(df)
@@ -283,15 +377,22 @@ def parse_data(df):
     df = add_col_target_alignment(df)
     df = add_col_pass_direction(df)
     df = add_col_TD(df)
+    df = add_cols_explosive_passes_and_yards(df)
+    df = add_cols_explosive_runs_and_yards(df)
+    df = add_col_successful_passes(df)
+    df = add_col_successful_runs(df)
     df = add_col_sack_TFL(df)
     df = add_col_sack_TFL_yards(df)
+    df = add_col_penalty_team(df)
+    df = add_col_penalty_type(df)
+    df = add_col_penalty_yards(df)
     df = void_kneeldown_yards(df)
     return df
 
 
 if __name__ == '__main__':
     df = load_data()
-    df = parse_data(df)
-    dfg = df.groupby('Series')
+    df = parse_data_into_new_cols(df)
+    # dfg = df.groupby('Series')
 
-    df.to_csv('~/Desktop/bronc2.csv', index=False)
+    # df.to_csv('~/Desktop/bronc2.csv', index=False)
