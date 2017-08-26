@@ -1,16 +1,18 @@
 import pandas as pd
 import numpy as np
 import datetime as dte
+import pickle
 
 
-def load_data():
+def load_data(filename):
     """There is extraneous data after column 25"""
     def clean_col_names(df):
-        if 'Gain' and 'Depth' not in df.columns:
+        if 'Gain' and 'Catch' not in df.columns:
             df.columns = df.loc[0].values
             df.drop(0, axis=0, inplace=True)
 
         df.rename(columns={'Series #': 'Series', 'Qtr': 'Quarter', 'Play #': 'Play', 'Play Description': 'Play_Type', 'Score': 'Score_Margin', 'Area': 'Pass_Area', 'Depth': 'Pass_Depth'}, inplace=True)
+
         df.columns = [col.replace(' ', '_') for col in df.columns]
         return df
 
@@ -18,10 +20,7 @@ def load_data():
         df.dropna(axis=0, thresh=12, inplace=True)
         return df
 
-    df = pd.read_csv('film_charting_stafford_2016.csv', usecols=tuple([col for col in range(25)]))
-    # df = pd.read_csv('film_charting_seahawks_3x1_sets.csv', usecols=tuple([col for col in range(25)]))
-    # df = pd.read_csv('film_charting_packers_bears_week_7.csv', usecols=tuple([col for col in range(25)]))
-    # df = pd.read_csv('film_charting_broncos_raiders_week_9.csv', usecols=tuple([col for col in range(25)]))
+    df = pd.read_csv(filename, usecols=tuple([col for col in range(25)]))
     df = clean_col_names(df)
     df = drop_empty_rows(df)
     df = fix_nans_dtypes(df)
@@ -49,7 +48,7 @@ def fix_nans_dtypes(df):
             #     df.loc[pd.isnull(df['Down']), 'Down'] = 0
 
             try:
-                df[col] = df[col].astype(float)
+                df[col] = pd.to_numeric(df[col])
             except KeyError:
                 print("{c} is not in columns; bypassing.".format(c=col))
         return df
@@ -82,12 +81,6 @@ def parse_data_into_new_cols(df):
         df.loc[tie_mask, 'Score_Margin'] = 0
 
         df['Score_Margin'] = df['Score_Margin'].astype(int)
-        return df
-
-
-    def add_col_off_team(df):
-        """Static entry for this csv"""
-        df['Off_Team'] = 'Raiders'
         return df
 
 
@@ -305,7 +298,7 @@ def parse_data_into_new_cols(df):
 
 
     def add_cols_explosive_passes_and_yards(df):
-        big_passes = (df['Play_Type'].str.lower().str.contains('pass')) & (df['Gain'] >= 20)
+        big_passes = (df['Play_Type'].str.lower().str.contains('pass')) & (df['Gain'] >= 16)
         df.loc[big_passes, 'Explosive_Pass'] = 1
         df.loc[~big_passes, 'Explosive_Pass'] = 0
         df.loc[big_passes, 'Explosive_Pass_Yd'] = df.loc[big_passes, 'Gain']
@@ -320,29 +313,65 @@ def parse_data_into_new_cols(df):
         return df
 
 
-    def add_col_successful_passes(df):
-        second_down = (df['Down'] == 2) & (df['Play_Type'].str.lower().str.contains('pass'))
-        third_down = (df['Down'] == 3) & (df['Play_Type'].str.lower().str.contains('pass'))
-        success_pass_2nd = df.loc[second_down, 'Gain'] >= (0.5 * df.loc[second_down, 'Distance'])
-        success_pass_3rd = df.loc[third_down, 'Gain'] >= df.loc[third_down, 'Distance']
-        success_2nd_true = df.loc[second_down].loc[success_pass_2nd]
-        success_3rd_true = df.loc[third_down].loc[success_pass_3rd]
+    def add_col_explosive_play(df):
+        play = (df['Explosive_Run'] == 1) | (df['Explosive_Pass'] == 1)
+        df.loc[play, 'Explosive_Play'] = 1
+        df.loc[~play, 'Explosive_Play'] = 0
+        return df
 
-        success_pass = set(success_2nd_true.index).union(set(success_3rd_true.index))
+
+    def add_col_successful_passes(df):
+        """Using FootballOutsiders yardage values for 'successful plays'"""
+        pass_mask = (df['Play_Type'].str.lower().str.contains('pass'))
+        first_down = (df['Down'] == 1) & pass_mask
+        second_down = (df['Down'] == 2) & pass_mask
+        third_fourth_down = ((df['Down'] == 3) | (df['Down'] == 4)) & pass_mask
+
+        success_pass_1st = df.loc[first_down, 'Gain'] >= (0.45 * df.loc[first_down, 'Distance'])
+        success_pass_2nd = df.loc[second_down, 'Gain'] >= (0.6 * df.loc[second_down, 'Distance'])
+        success_pass_3rd_4th = df.loc[third_fourth_down, 'Gain'] >= df.loc[third_fourth_down, 'Distance']
+
+        success_1st_true = df.loc[first_down].loc[success_pass_1st]
+        success_2nd_true = df.loc[second_down].loc[success_pass_2nd]
+        success_3rd_4th_true = df.loc[third_fourth_down].loc[success_pass_3rd_4th]
+
+        success_pass = \
+            set(success_1st_true.index)\
+            .union(set(success_2nd_true.index)\
+            .union(set(success_3rd_4th_true.index)))
+
         df.loc[success_pass, 'Successful_Pass'] = 1
         return df
 
 
     def add_col_successful_runs(df):
-        second_down = (df['Down'] == 2) & (df['Play_Type'].str.lower().str.contains('run'))
-        third_down = (df['Down'] == 3) & (df['Play_Type'].str.lower().str.contains('run'))
-        success_run_2nd = df.loc[second_down, 'Gain'] >= (0.5 * df.loc[second_down, 'Distance'])
-        success_run_3rd = df.loc[third_down, 'Gain'] >= df.loc[third_down, 'Distance']
-        success_2nd_true = df.loc[second_down].loc[success_run_2nd]
-        success_3rd_true = df.loc[third_down].loc[success_run_3rd]
+        """Using FootballOutsiders yardage values for 'successful plays'"""
+        run_mask = (df['Play_Type'].str.lower().str.contains('run'))
+        first_down = (df['Down'] == 1) & run_mask
+        second_down = (df['Down'] == 2) & run_mask
+        third_fourth_down = ((df['Down'] == 3) | (df['Down'] == 4)) & run_mask
 
-        success_run = set(success_2nd_true.index).union(set(success_3rd_true.index))
+        success_run_1st = df.loc[first_down, 'Gain'] >= (0.45 * df.loc[first_down, 'Distance'])
+        success_run_2nd = df.loc[second_down, 'Gain'] >= (0.6 * df.loc[second_down, 'Distance'])
+        success_run_3rd_4th = df.loc[third_fourth_down, 'Gain'] >= df.loc[third_fourth_down, 'Distance']
+
+        success_1st_true = df.loc[first_down].loc[success_run_1st]
+        success_2nd_true = df.loc[second_down].loc[success_run_2nd]
+        success_3rd_4th_true = df.loc[third_fourth_down].loc[success_run_3rd_4th]
+
+        success_run = \
+            set(success_1st_true.index)\
+            .union(set(success_2nd_true.index)\
+            .union(set(success_3rd_4th_true.index)))
+
         df.loc[success_run, 'Successful_Run'] = 1
+        return df
+
+
+    def add_col_successful_play(df):
+        play = (df['Successful_Run'] == 1) | (df['Successful_Pass'] == 1)
+        df.loc[play, 'Successful_Play'] = 1
+        df.loc[~play, 'Successful_Play'] = 0
         return df
 
 
@@ -354,7 +383,21 @@ def parse_data_into_new_cols(df):
         return df
 
 
-    df = add_col_off_team(df)
+    def add_col_home_road(df):
+        if 'Opponent' in df.columns:
+            road_mask = df['Opponent'].str.lower().str.contains('at')
+            df.loc[road_mask, 'Home/Road'] = 'Road'
+            df.loc[~(road_mask), 'Home/Road'] = 'Home'
+        return df
+
+
+    def clean_col_opponent(df):
+        if 'Opponent' in df.columns:
+            df['Opponent'] = df['Opponent'].str.replace('at ', '')
+            df.loc[df['Opponent'] == 'LA', 'Opponent'] = 'LAR'
+        return df
+
+
     df = add_col_goalline(df)
     df = clean_col_score(df)
     df = clean_col_distance(df)
@@ -379,20 +422,45 @@ def parse_data_into_new_cols(df):
     df = add_col_TD(df)
     df = add_cols_explosive_passes_and_yards(df)
     df = add_cols_explosive_runs_and_yards(df)
+    df = add_col_explosive_play(df)
     df = add_col_successful_passes(df)
     df = add_col_successful_runs(df)
+    df = add_col_successful_play(df)
     df = add_col_sack_TFL(df)
     df = add_col_sack_TFL_yards(df)
     df = add_col_penalty_team(df)
     df = add_col_penalty_type(df)
     df = add_col_penalty_yards(df)
+    df = add_col_home_road(df)
+    df = clean_col_opponent(df)
     df = void_kneeldown_yards(df)
     return df
 
 
-if __name__ == '__main__':
-    df = load_data()
-    df = parse_data_into_new_cols(df)
-    # dfg = df.groupby('Series')
+def save_to_csv(df, fname, save=True):
+    if save:
+        df.to_csv('{f}.csv'.format(f=fname.replace('raw', 'cleaned')), index=False)
+    return None
 
-    # df.to_csv('~/Desktop/bronc2.csv', index=False)
+
+
+if __name__ == '__main__':
+    files = [
+        'film_charting_broncos_raiders_week_9_raw', \
+        'film_charting_packers_bears_week_7_raw', \
+        'film_charting_seahawks_3x1_sets_raw', \
+        'film_charting_stafford_2016_raw'
+        ]
+
+    # filename = files[0]
+    for filename in files:
+        df = load_data("{f}.csv".format(f=filename))
+        df = parse_data_into_new_cols(df)
+        save_to_csv(df, filename, save=True)
+
+    df1 = pd.read_csv('film_charting_broncos_raiders_week_9_cleaned.csv')
+    df2 = pd.read_csv('film_charting_packers_bears_week_7_cleaned.csv')
+    df3 = df1.append(df2)
+    # df3.to_csv('combined_game_charts_cleaned.csv')
+
+    # dfg = df.groupby('Series')
