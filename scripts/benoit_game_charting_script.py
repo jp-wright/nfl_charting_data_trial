@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 import datetime as dte
-import pickle
+# import pickle
 
 
 def load_data(filename):
@@ -56,7 +56,6 @@ def fix_nans_dtypes(df):
     df = fill_col_nans(df)
     df = fix_dtypes(df)
     return df
-
 
 
 def parse_data_into_new_cols(df):
