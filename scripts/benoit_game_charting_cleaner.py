@@ -20,9 +20,22 @@ def load_data(filename):
         df.dropna(axis=0, thresh=12, inplace=True)
         return df
 
+    def add_col_name_loc_opp(df, filename):
+        if 'packers' in filename:
+            df['Team'] = 'GB'
+            df['Home/Road'] = 'Home'
+            df['Opponent'] = 'CHI'
+        elif 'raiders' in filename:
+            df['Team'] = 'OAK'
+            df['Home/Road'] = 'Home'
+            df['Opponent'] = 'DEN'
+        return df
+
+
     df = pd.read_csv(filename, usecols=tuple([col for col in range(25)]))
     df = clean_col_names(df)
     df = drop_empty_rows(df)
+    df = add_col_name_loc_opp(df, filename)
     df = fix_nans_dtypes(df)
     return df
 
@@ -175,8 +188,8 @@ def parse_data_into_new_cols(df):
 
 
     def add_col_formation_shotgun_offset(df):
-        R_mask = df['Formation'].str.lower().str.contains('shotgun offset R')
-        L_mask = df['Formation'].str.lower().str.contains('shotgun offset L')
+        R_mask = df['Formation'].str.lower().str.contains('shotgun offset r')
+        L_mask = df['Formation'].str.lower().str.contains('shotgun offset l')
         df.loc[R_mask, 'Shotgun_Offset'] = 'Right'
         df.loc[L_mask, 'Shotgun_Offset'] = 'Left'
         return df
@@ -190,8 +203,8 @@ def parse_data_into_new_cols(df):
 
 
     def add_col_formation_IForm_offset(df):
-        R_mask = df['Formation'].str.lower().str.contains('i-form offset R')
-        L_mask = df['Formation'].str.lower().str.contains('i-form offset L')
+        R_mask = df['Formation'].str.lower().str.contains('i-form offset r')
+        L_mask = df['Formation'].str.lower().str.contains('i-form offset l')
         df.loc[R_mask, 'I-Form_Offset'] = 'Right'
         df.loc[L_mask, 'I-Form_Offset'] = 'Left'
         return df
@@ -436,9 +449,10 @@ def parse_data_into_new_cols(df):
     return df
 
 
-def save_to_csv(df, fname, save=True):
+def save_to_csv(df, fname, save=False):
+    """Save defaults to False to prevent accidental overwrite"""
     if save:
-        df.to_csv('{f}.csv'.format(f=fname.replace('raw', 'cleaned')), index=False)
+        df.to_csv('../data/{f}.csv'.format(f=fname.replace('raw', 'cleaned')), index=False)
     return None
 
 
@@ -451,15 +465,16 @@ if __name__ == '__main__':
         'film_charting_stafford_2016_raw'
         ]
 
-    # filename = files[0]
+    filename = files[0]
     for filename in files:
-        df = load_data("{f}.csv".format(f=filename))
+        df = load_data("../data/raw_data/{f}.csv".format(f=filename))
         df = parse_data_into_new_cols(df)
         save_to_csv(df, filename, save=True)
 
-    df1 = pd.read_csv('film_charting_broncos_raiders_week_9_cleaned.csv')
-    df2 = pd.read_csv('film_charting_packers_bears_week_7_cleaned.csv')
+
+    df1 = pd.read_csv('../data/film_charting_broncos_raiders_week_9_cleaned.csv')
+    df2 = pd.read_csv('../data/film_charting_packers_bears_week_7_cleaned.csv')
     df3 = df1.append(df2)
-    # df3.to_csv('combined_game_charts_cleaned.csv')
+    df3.to_csv('../data/combined_game_charts_cleaned.csv', index=False)
 
     # dfg = df.groupby('Series')
