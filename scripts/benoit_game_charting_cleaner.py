@@ -118,6 +118,13 @@ def parse_data_into_new_cols(df):
         return df
 
 
+    def add_col_red_zone(df):
+        rz_mask = df['LOS_to_Goal'] <= 20
+        df.loc[rz_mask, 'Red_Zone'] = 1
+        df.loc[~(rz_mask), 'Red_Zone'] = 0
+        return df
+
+
     def add_cols_minute_and_second(df):
         """Split time col on the colon, take the numbers in front of it as the minutes, after it as seconds"""
         df['Minute'] = df['Time'].str.split(':', expand=True).loc[:, 0]
@@ -277,7 +284,7 @@ def parse_data_into_new_cols(df):
 
 
     def add_col_penalty_team(df):
-        pen_yards = df['Penalty'].str.extract('(\d+)$', expand=False).astype(float)
+        pen_yards = df['Penalty'].str.extract('(\S*\d+)$', expand=False).astype(float)
         off_mask = pen_yards < 0
         def_mask = pen_yards > 0
 
@@ -292,7 +299,7 @@ def parse_data_into_new_cols(df):
 
 
     def add_col_penalty_yards(df):
-        pen_yards = df['Penalty'].str.extract('(\d+)$', expand=False).astype(float)
+        pen_yards = df['Penalty'].str.extract('(\S*\d+)$', expand=False).astype(float)
         pen_yards.fillna(0, inplace=True)
         df['Penalty_Yards'] = pen_yards
         return df
@@ -353,6 +360,9 @@ def parse_data_into_new_cols(df):
             .union(set(success_3rd_4th_true.index)))
 
         df.loc[success_pass, 'Successful_Pass'] = 1
+
+        pen_mask = df['Penalty_Team'] == 'Defense'
+        df.loc[pen_mask, 'Successful_Pass'] = np.nan
         return df
 
 
@@ -377,6 +387,10 @@ def parse_data_into_new_cols(df):
             .union(set(success_3rd_4th_true.index)))
 
         df.loc[success_run, 'Successful_Run'] = 1
+
+        ## Make Defensive Penalty a NaN, b/c not successful by O but not unsuccessful
+        pen_mask = df['Penalty_Team'] == 'Defense'
+        df.loc[pen_mask, 'Successful_Run'] = np.nan
         return df
 
 
@@ -384,6 +398,10 @@ def parse_data_into_new_cols(df):
         play = (df['Successful_Run'] == 1) | (df['Successful_Pass'] == 1)
         df.loc[play, 'Successful_Play'] = 1
         df.loc[~play, 'Successful_Play'] = 0
+
+        ## Make Defensive Penalty a NaN, b/c not successful by O but not unsuccessful
+        pen_mask = df['Penalty_Team'] == 'Defense'
+        df.loc[pen_mask, 'Successful_Play'] = np.nan
         return df
 
 
@@ -414,6 +432,7 @@ def parse_data_into_new_cols(df):
     df = clean_col_score(df)
     df = clean_col_distance(df)
     df = add_col_LOS(df)
+    df = add_col_red_zone(df)
     df = add_col_net_gain(df)
     df = add_cols_minute_and_second(df)
     df = add_col_NumRB(df)
@@ -435,14 +454,14 @@ def parse_data_into_new_cols(df):
     df = add_cols_explosive_passes_and_yards(df)
     df = add_cols_explosive_runs_and_yards(df)
     df = add_col_explosive_play(df)
+    df = add_col_penalty_team(df)
+    df = add_col_penalty_type(df)
+    df = add_col_penalty_yards(df)
     df = add_col_successful_passes(df)
     df = add_col_successful_runs(df)
     df = add_col_successful_play(df)
     df = add_col_sack_TFL(df)
     df = add_col_sack_TFL_yards(df)
-    df = add_col_penalty_team(df)
-    df = add_col_penalty_type(df)
-    df = add_col_penalty_yards(df)
     df = add_col_home_road(df)
     df = clean_col_opponent(df)
     df = void_kneeldown_yards(df)
