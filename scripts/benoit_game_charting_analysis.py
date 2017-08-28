@@ -9,16 +9,19 @@ def load_data(filename):
 
 
 
-def get_col_val_counts(df, col, kind='bool'):
-    if kind == 'bool':
-        dfy = df[df[col] == 1]
-        dfn = df[df[col] == 0]
-    # elif kind == 'categorical'
+#
+# def get_val_counts(dfv, group_col, target_col, game='both'):
+#     if game != 'both':
+#         dfv = dv[dv['Team'] == game].copy()
+#
+#     for cat in df[group_col].dropna().unique():
+#         print(cat)
+#         print(df.loc[df[group_col] == cat, target_col].value_counts())
 
-    print()
+    # print()
 
 
-def group_and_summarize(dfg, group_by, game='both'):
+def group_and_summarize(dfg, group_by, target_col, game='both', method='mean'):
     """Group and provide some analysis of the chosen DF.  Use 'game' to select both games or just one game (home teams of GB or OAK)
     INPUT:  group_by --> col to group on
             game --> 'both', 'GB', or 'OAK'
@@ -28,26 +31,23 @@ def group_and_summarize(dfg, group_by, game='both'):
     if game != 'both':
         dfg = df[df['Team'] == game].copy()
     dfg = dfg.groupby(group_by)
+    # dfg[]
 
 
-
-
-
-
-
-
-    return dfg['Gain'].apply(lambda x: x - x.mean())
+    # return dfg[target_col].apply(lambda x: x - x.mean())
+    return dfg[target_col].value_counts()
 
 
 
 
 def group_v_game_mean(dfg):
-    for group, data in dfg:
+    pass
+    # for group, data in dfg:
 
 
 
 def group_v_combined_mean():
-
+    pass
 
 
 
@@ -67,17 +67,17 @@ if __name__ == '__main__':
     df = load_data('../data/combined_game_charts_cleaned.csv')
 
 
-
-    dfg = df.groupby('Successful')
-
-
-    gg = df[df['Team'] == 'GB']
-    gg[gg['Successful_Play'] == 1, 'Gain']
-    gg[gg['Successful_Play'] == 0, 'Gain']
-    gg.groupby('Successful_Play')['Gain'].transform(lambda x: x - x.mean())
-
-
-    gg.groupby('Successful_Play')[['Down', 'Distance']].mean()
+    #
+    # dfg = df.groupby('Successful')
+    #
+    #
+    # gg = df[df['Team'] == 'GB']
+    # gg[gg['Successful_Play'] == 1, 'Gain']
+    # gg[gg['Successful_Play'] == 0, 'Gain']
+    # gg.groupby('Successful_Play')['Gain'].transform(lambda x: x - x.mean())
+    #
+    #
+    # gg.groupby('Successful_Play')[['Down', 'Distance']].mean()
     #                         Down  Distance
     #    Successful_Play
     #    0                1.723404  8.106383
