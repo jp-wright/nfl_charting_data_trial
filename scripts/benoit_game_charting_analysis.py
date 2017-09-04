@@ -152,6 +152,42 @@ if __name__ == '__main__':
     7. Do explosive plays come earlier or later in game?  Any correlation?  Do they happen more with certain players?
     8. Did Sacks kill drives?
     9. How did penalties affect drives?
+
+
+
+
+
+
+
+    <BR><BR><BR><BR><BR><BR>
+
+    cc = ['Team', 'Series', 'Play', 'Quarter', 'Time', 'Score_Margin', 'Down', 'Distance', 'LOS_to_Goal', 'Successful_Play', 'TD', 'Field_Goal']
+
+    df.groupby(['Team', 'Series'], as_index=False)[cc].first()
+
+    df.loc[(df['Successful_Play'] == 1) & (df['Down'] == 3), cc]
+
+
+
+
+    df.groupby(['Successful_Play', 'Down'])['Down'].count().sort_values(ascending=False)
+    ['Series', 'Play', 'Quarter', 'Time', 'Score_Margin', 'Down', 'Distance',
+           'POS', 'Play_Type', 'Personnel', 'Formation', 'Motion', 'Runner',
+           'Lead_Block', 'Target', 'Catch', 'Gain', 'Penalty', 'Play_Action',
+           'Pass_Area', 'Pass_Depth', 'Run_Area', 'Def_Package', 'Def_Front',
+           'Pass_Rushers', 'Team', 'Home/Road', 'Opponent', 'Goal_Line',
+           'LOS_to_Goal', 'Net_Gain', 'Minute', 'Second', 'Num_RB', 'Num_TE',
+           'Num_WR', '6_OL', 'Left_Split', 'Right_Split', 'Shotgun',
+           'Shotgun_Offset', 'I-Form', 'I-Form_Offset', 'Motion_Bool',
+           'Motion_Pos', 'Motion_Dir', 'Target_Pos', 'Target_Align', 'Pass_Dir',
+           'TD', 'Explosive_Pass', 'Explosive_Pass_Yd', 'Explosive_Run',
+           'Explosive_Run_Yd', 'Explosive_Play', 'Successful_Pass',
+           'Successful_Run', 'Successful_Play', 'Sack_TFL', 'Sack_TFL_Yards',
+           'Penalty_Team', 'Penalty_Type', 'Penalty_Yards']
+
+
+
+
     """
 
 
