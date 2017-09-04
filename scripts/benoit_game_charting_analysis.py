@@ -51,6 +51,68 @@ def group_v_combined_mean():
 
 
 
+def get_percent_personnel_use(df, value, team='both'):
+    """Can choose 'Formation' or 'Personnel' col.  Must pass in as string representing the column name for that value"""
+
+    value = value.lower()
+    col = 'Formation' if value in ['singleback', 'shotgun', 'i-form', 'dual te', 'triple te'] else 'Personnel'
+    if not team == 'both':
+        successes = df[(df[col].str.lower().str.contains(value)) & (df['Team'] == team)].shape[0]
+        total = df[df['Team'] == team].shape[0]
+    else:
+        successes = df[df[col].str.lower().str.contains(value)].shape[0]
+        total = df.shape[0]
+
+    perc = successes / total if total > 0 else 0
+    print("Plays with {v}: {s} \nTotal plays: {t} \n{s}/{t} = {p:.2f}%".format(v=value, s=successes, t=total, p=perc*100))
+
+    return None
+
+
+def get_percent_total_success_with_personnel(df, value, result='Successful', team='both'):
+    """Can pass in a formation for personnel, 'Successful' or 'Explosive' for result.  Must pass in as string representing the column name for that value.  Returns percent of all successful plays that happened to be from this formation/personnel"""
+
+    value = value.lower()
+    col = 'Formation' if value in ['singleback', 'shotgun', 'i-form', 'dual te', 'triple te'] else 'Personnel'
+    if not team == 'both':
+        print('Team: {t}'.format(t=team))
+        team_mask = (df[result+'_Play'] == 1) & (df['Team'] == team)
+        successes = df.loc[team_mask & (df[col].str.lower().str.contains(value))].shape[0]
+        total = df[team_mask].shape[0]
+    else:
+        print("All teams")
+        successes = df.loc[(df[result+'_Play'] == 1) & (df[col].str.lower().str.contains(value))].shape[0]
+        total = df[df[result+'_Play'] == 1].shape[0]
+
+    perc = successes / total if total > 0 else 0
+    print("Successful plays with {v}: {s} \nTotal successful plays: {t} \n{s}/{t} = {p:.2f}%".format(v=value, s=successes, t=total, p=perc*100))
+
+    return None
+
+
+def get_percent_plays_with_personnel_that_succeeded(df, value, result='Successful', team='both'):
+    """Can pass in a formation for personnel, 'Successful' or 'Explosive' for result.  Must pass in as string representing the column name for that value. returns percent of all plays of a given formation/personnel that were successful"""
+
+    value = value.lower()
+    col = 'Formation' if value in ['singleback', 'shotgun', 'i-form', 'dual te', 'triple te'] else 'Personnel'
+    if not team == 'both':
+        print('Team: {t}'.format(t=team))
+        team_mask = (df[result+'_Play'] == 1) & (df['Team'] == team)
+        successes = df.loc[team_mask & (df[col].str.lower().str.contains(value))].shape[0]
+        total = df[(df[col].str.lower().str.contains(value)) & (df['Team'] == team)].shape[0]
+    else:
+        print("All teams")
+        successes = df.loc[(df[result+'_Play'] == 1) & (df[col].str.lower().str.contains(value))].shape[0]
+        total = df[df[col].str.lower().str.contains(value)].shape[0]
+
+    perc = successes / total if total > 0 else 0
+
+    print("Successful plays with {v}: {s} \nTotal plays with {v}: {t} \n{s}/{t} = {p:.2f}%".format(v=value, s=successes, t=total, p=perc*100))
+
+    return None
+
+
+
 def plot_():
     pass
 
@@ -65,6 +127,21 @@ if __name__ == '__main__':
     #     ]
 
     df = load_data('../data/combined_game_charts_cleaned.csv')
+
+    for team in ['GB', 'OAK']:
+        for formation in ['singleback', 'shotgun', 'i-form', 'dual te', 'triple te']:
+            print(formation)
+            get_percent_total_success_with_personnel(df, formation, team=team)
+            print('')
+            get_percent_plays_with_personnel_that_succeeded(df, formation, team=team)
+            print('')
+
+
+
+
+
+
+
 
 
     #

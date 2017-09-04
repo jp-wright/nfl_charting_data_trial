@@ -216,6 +216,10 @@ def parse_data_into_new_cols(df):
         df.loc[L_mask, 'I-Form_Offset'] = 'Left'
         return df
 
+    def add_col_formation_singleback(df):
+        mask = df['Formation'].str.lower().str.contains('singleback')
+        df.loc[mask, 'Singleback'] = 1
+        return df
 
     def add_col_motion_bool(df):
         df.loc[pd.notnull(df['Motion']), 'Motion_Bool'] = 1
@@ -405,6 +409,18 @@ def parse_data_into_new_cols(df):
         return df
 
 
+    def add_col_field_goal(df):
+        fg_mask = df['Score_Margin'].shift(-1) - df['Score_Margin'] == 3
+        df.loc[fg_mask, 'Field_Goal'] = 1
+        df.loc[~fg_mask, 'Field_Goal'] = 0
+        return df
+
+    def add_col_field_goal_dist(df):
+        fg_mask = df['Field_Goal'] == 1
+        df.loc[fg_mask, 'Field_Goal_Dist'] = df.loc[fg_mask, 'LOS_to_Goal'] + 17
+        return df
+
+
     def void_kneeldown_yards(df):
         kneel_mask = df['Play_Type'].str.lower().str.contains('kneel')
         df.loc[kneel_mask, ['Gain']] = np.nan
@@ -444,6 +460,7 @@ def parse_data_into_new_cols(df):
     df = add_col_formation_shotgun_offset(df)
     df = add_col_formation_IForm(df)
     df = add_col_formation_IForm_offset(df)
+    df = add_col_formation_singleback(df)
     df = add_col_motion_bool(df)
     df = add_col_motion_pos(df)
     df = add_col_motion_direction(df)
@@ -460,6 +477,8 @@ def parse_data_into_new_cols(df):
     df = add_col_successful_passes(df)
     df = add_col_successful_runs(df)
     df = add_col_successful_play(df)
+    df = add_col_field_goal(df)
+    df = add_col_field_goal_dist(df)
     df = add_col_sack_TFL(df)
     df = add_col_sack_TFL_yards(df)
     df = add_col_home_road(df)
