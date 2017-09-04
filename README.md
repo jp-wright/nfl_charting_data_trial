@@ -6,14 +6,14 @@ Given two game charts from one team per game only, a chart of a team's use of a 
 ## Table of Contents
 1. [Dataset](#dataset)
 2. [Successful and Explosive Plays](#successful-and-explosive-plays)
-    + [What Makes Plays Successful?](#what-makes-plays-successful?)
+    + [What Makes Plays Successful?](#what-makes-plays-successful)
 3. [Team Identity and Success](#team-identity-and-success)
     + [Success by Formation](#success-by-formation)
     + [Success by Personnel Groups](#success-by-personnel-groups)
 4. [Expanded Considerations](#expanded-considerations)
 
 
-<BR><BR>
+<BR>
 
 ### Dataset
 There were four charts (CSV files), all from the 2016 season.  The play-by-play charts each had only one team from the game.  This means we cannot tell for certain if the opposing team matched the chart's team's score (if we only have the relative score reported at the beginning of each drive for one team, they could end their drive with a field goal and the opponent could match, meaning the relative score would be unchanged at the beginning of the next possession for the team we are seeing data from).
@@ -51,7 +51,7 @@ Barring extreme and rare circumstances, this means that explosive plays will alm
 Counting such penalties as "successful" plays (i.e. crediting the offense for their occurrence) is likely to be more predictive if modeling future performance.  This short write up is not attempting to do such extensive modeling, so penalties will be discussed in their own section, which I believe works out fine.  
 
 
-##### What Makes Plays Successful?
+##### What Makes Plays Successful
 The most basic component to examining what contributes to successful plays is the _down & distance_ situation the team is in that has success.  Using the two game charting files combined, and removing defensive penalties, left us with 156 total plays.  The average distance to go per down and the number of times that down produced a successful or unsuccessful play were found.  
 
 ###### Successful Plays
@@ -135,12 +135,20 @@ Though it is important to realize that these formations are used hundreds of tim
 
 Let's take a quick look at the major formation tendencies of both teams from the games above.
 
-###### Formation Breakdown (Sung to the tune of _Communication Breakdown_ by Led Zeppelin)
+##### Formation Breakdown (Sung to the tune of _Communication Breakdown_ by Led Zeppelin)
+
+###### Green Bay Formations
 Team        | Formation     | Uses | Total Plays | % Usage
 ------------|---------------|------|-------------|---------
 Green Bay   | Shotgun       | 62   | 86          | 72.1%
 Green Bay   | I-Form        | 14   | 86          | 16.3%
 Green Bay   | Singleback    | 8    | 86          | 9.3%
+
+<BR>
+
+###### Oakland Formations
+Team        | Formation     | Uses | Total Plays | % Usage
+------------|---------------|------|-------------|---------
 Oakland     | Shotgun       | 37   | 82          | 45.1%
 Oakland     | Singleback    | 37   | 82          | 45.1%
 Oakland     | I-Form        | 7    | 82          | 8.5%
