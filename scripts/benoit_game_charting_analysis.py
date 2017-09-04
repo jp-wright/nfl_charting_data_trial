@@ -129,16 +129,30 @@ if __name__ == '__main__':
     df = load_data('../data/combined_game_charts_cleaned.csv')
 
     for team in ['GB', 'OAK']:
-        for formation in ['singleback', 'shotgun', 'i-form', 'dual te', 'triple te']:
+        # for formation in ['singleback', 'shotgun', 'i-form', 'dual te', 'triple te']:
+        for formation in sorted(df['Personnel'].unique()):
             print(formation)
-            get_percent_total_success_with_personnel(df, formation, team=team)
-            print('')
+            # get_percent_total_success_with_personnel(df, formation, team=team)
+            # print('')
             get_percent_plays_with_personnel_that_succeeded(df, formation, team=team)
             print('')
 
 
 
+    """
+    For each:
+    situations, directions, margin, packages, shotgun/I-Form, motion, target dir, target align, rushers, yard line, what plays did they follow? follow penalties?
 
+    1. explosive / success plays
+    2. TD plays — same info
+    3. Sacks — same info
+    4. Packages — most common and in what situations, most successful, least successful, team character (6 OL v 3x1),
+    5. Does shotgun = better passing?  Worse rushing? What about I-Form?
+    6. Would certain QBs do better throwing to one side of the field?
+    7. Do explosive plays come earlier or later in game?  Any correlation?  Do they happen more with certain players?
+    8. Did Sacks kill drives?
+    9. How did penalties affect drives?
+    """
 
 
 

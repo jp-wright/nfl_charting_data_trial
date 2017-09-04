@@ -230,13 +230,13 @@ Oakland    | Triple TE  | 5                             | 35                    
 
 <BR>
 
-In terms of total successful plays, Green Bay was indeed most productive when they hand Rodgers the ball in the Shotgun and ask him to pick apart opposing defenses.  Conversely Oakland was again more balanced, finding good value in both the Singleback and Shotgun sets. I've also included the multiple TE variants and we see that here, too, Oakland managed to find a degree of success.  
+In terms of total successful plays, Green Bay was indeed most productive when they hand Rodgers the ball in the Shotgun and asked him to pick apart opposing defenses.  Conversely Oakland was again more balanced, finding good value in both the Singleback and Shotgun sets. I've also included the multiple TE variants and we see that here, too, Oakland managed to find a degree of success.  
 
 But these numbers reflect the raw totals of these formation uses.  Yes, Green Bay had the highest number of effective plays when in the Shotgun, but they also used Shotgun over _four times_ as much as the next major formation.  We want to also see which sets each team was most efficiently successful in.
 
 ###### Green Bay Formation Efficiency
 Team       | Formation  | Successful Plays w/ Formation | Total Plays w/ Formation | Formation Efficiency
------------|------------|-------------------------------|--------------------------|--------------------------
+-----------|------------|-------------------------------|--------------------------|---------------------
 Green Bay  | Shotgun    | 33                            | 62                       | 53.2%
 Green Bay  | I-Form     | 4                             | 14                       | 28.6%
 Green Bay  | Singleback | 2                             | 8                        | 25.0%
@@ -245,8 +245,8 @@ Green Bay  | Singleback | 2                             | 8                     
 
 
 ###### Oakland Formation Efficiency
-Team       | Formation  | Successful Plays w/ Formation | Total Successful Plays | % Successful w/ Formation
------------|------------|-------------------------------|------------------------|--------------------------
+Team       | Formation  | Successful Plays w/ Formation | Total Successful Plays | Formation Efficiency
+-----------|------------|-------------------------------|------------------------|----------------------
 Oakland    | Singleback | 17                            | 37                     | 46.0%
 Oakland    | Shotgun    | 13                            | 37                     | 35.1%
 Oakland    | I-Form     | 4                             | 7                      | 57.1%
@@ -254,7 +254,78 @@ Oakland    | Dual TE    | 9                             | 20                    
 Oakland    | Triple TE  | 5                             | 14                     | 35.7%
 
 
+I think this presents us a more insightful glance into how these teams had the success they did in their respective games.  Green Bay not only used Shotgun on almost three quarters of all its snaps, but converted over half of those plays into a "successful" result.  With a large sample size of 62 plays in a single game, we can feel fairly confident in saying that Green Bay was probably justified in 'feeding' the offense the ball through the efficient passes of QB Rodgers.  
 
+Oakland was slightly more efficient in the Singleback than in Shotgun in this game, though technically speaking they were more efficient in I-Form than either.  However, we must exercise a modicum of caution with this result because their highly efficient I-Form rate comes from a sample size of only seven plays.  It is possible they leveraged the I-Form set in only highly advantageous situations (e.g. short yardage or against a nickel defense).  
+
+Out of curiosity let's do the same quick investigation of personnel groupings.
+
+###### Green Bay Successful Personnel Groupings
+Team      | Personnel | Successful Plays w/ Per. | Total Successful Plays | % Successful w/ Per.
+----------|-----------|--------------------------|------------------------|----------------------
+Green Bay | 00        | 7                        | 39                     | 18.0%
+Green Bay | 01        | 22                       | 39                     | 56.4%
+Green Bay | 10        | 6                        | 39                     | 15.4%
+Green Bay | 11        | 2                        | 39                     | 5.1%
+Green Bay | 12        | 1                        | 39                     | 2.6%
+Green Bay | 20        | 1                        | 39                     | 2.6%
+
+<BR>
+
+###### Oakland Successful Personnel Groupings
+Team      | Personnel | Successful Plays w/ Per. | Total Successful Plays | % Successful w/ Per.
+----------|-----------|--------------------------|------------------------|----------------------
+Oakland   | 6 OL      | 20                       | 35                     | 57.1%
+Oakland   | 01        | 1                        | 35                     | 2.9%
+Oakland   | 10        | 1                        | 35                     | 2.9%
+Oakland   | 11        | 8                        | 35                     | 22.9%
+Oakland   | 12        | 4                        | 35                     | 11.4%
+Oakland   | 21        | 1                        | 35                     | 2.9%
+
+<BR>
+
+Looking at total personnel usage, Green Bay saw the most success when using an empty set with one TE.  Behind that came five WR ("5 wide") and one RB with no TE.  In each of these top three formations, the Packers had a minimum of four WR on the field. This is what we'd expect from the analysis above which showed their heavy reliance on the Shotgun formation.  Meanwhile, Oakland saw the greatest volume of successful plays arise from their 6 OL sets, with "eleven" personnel following behind that.   Both teams had a measurable gap in count of successful plays between their top personnel group and the rest of the personnel groupings.  
+
+Finally, let's inspect the efficiency of each personnel grouping for both teams.
+
+<BR>
+
+###### Green Bay Personnel Efficiency
+Team      | Personnel | Successful Plays w/ Per. | Total Plays w/ Personnel| Personnel Efficiency
+----------|-----------|--------------------------|------------------------|---------------------
+Green Bay | 00        | 7                        | 15                     | 46.7%
+Green Bay | 01        | 22                       | 42                     | 52.4%
+Green Bay | 10        | 6                        | 11                     | 54.6%
+Green Bay | 11        | 2                        | 7                      | 28.6%
+Green Bay | 12        | 1                        | 4                      | 25.0%
+Green Bay | 20        | 1                        | 1                      | 100%
+
+<BR>
+
+###### Oakland Personnel Efficiency
+Team      | Personnel | Successful Plays w/ Per. | Total Plays w/ Personnel| Personnel Efficiency
+----------|-----------|--------------------------|------------------------|----------------------
+Oakland   | 6 OL      | 20                       | 42                     | 47.2%
+Oakland   | 01        | 1                        | 1                      | 100%
+Oakland   | 10        | 1                        | 1                      | 100%
+Oakland   | 11        | 8                        | 26                     | 30.8%
+Oakland   | 12        | 4                        | 7                      | 57.1%
+Oakland   | 21        | 1                        | 2                      | 50.0%
+
+<BR>
+
+First off, discard any groupings that have only one or two plays as their sample size.  We can't draw any reliable conclusion from them.  Second, within their three most used personnel groupings Green Bay was quite efficient, hovering around 50% success rate on each.  Oakland was a bit more divergent in their primary grouping success rates, with close to 50% in 6 OL -- their most used grouping -- but only 30% in "eleven" personnel -- their second most used grouping.
+
+
+
+
+
+
+<BR>
+
+In general this type of analysis provides a real glance of how teams want to operate, what they value schematically, and what they will turn to in important situations.  It would be exceptionally great to have all this data for every team in every game for the entire season (or many seasons).  If we did, we could establish very informative comparisons that could definitively illustrate just how teams view themselves and, I suspect, it would be neat to see how these "identities" transition both as front offices change as well as roster turnover occurs.  
+
+For example, during their Super Bowl run in 2015, Denver had an historically excellent defense.  Last year, however, they were still effective against the pass but were below average in effectiveness against opposing rushing games.  It's possible that Oakland -- who played against Denver in the game chart above -- was eager to exploit Denver's weakness against the run and opted for more multiple TE and 6 OL sets than normal.  With only one game's data it is impossible to know.  Having an entire season's worth of data would allow us to peer into the true trends and tendencies league-wide as well as marking how drastically a team changes their approach for a given opponent.
 
 
 
