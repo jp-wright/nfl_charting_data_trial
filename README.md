@@ -211,22 +211,22 @@ Oakland takes a different tact with their personnel groupings, employing what is
 The header of this entire section is "Team Identity and Success."  Unsurprisingly, we want to go a step further and see how successful each team was when using various formations and personnel groupings.  For this quick investigation we will look first at what share of total "successful" plays came from which formations and then drilling down a step further, we will see the efficiency of each formation in producing successful outcomes.
 
 ###### Green Bay Successful Formations
-Team       | Formation  | Successful Plays w/ Formation | Total Successful Plays | % Successful w/ Formation
------------|------------|-------------------------------|------------------------|--------------------------
-Green Bay  | Shotgun    | 33                            | 39                     | 84.6%
-Green Bay  | I-Form     | 4                             | 39                     | 10.3%
-Green Bay  | Singleback | 2                             | 39                     | 5.1%
+Team       | Formation  | Successful Plays w/ Form. | Total Successful Plays | % Successful w/ Form.
+-----------|------------|---------------------------|------------------------|----------------------
+Green Bay  | Shotgun    | 33                        | 39                     | 84.6%
+Green Bay  | I-Form     | 4                         | 39                     | 10.3%
+Green Bay  | Singleback | 2                         | 39                     | 5.1%
 
 <BR>
 
 ###### Oakland Successful Formations
-Team       | Formation  | Successful Plays w/ Formation | Total Successful Plays | % Successful w/ Formation
------------|------------|-------------------------------|------------------------|--------------------------
-Oakland    | Singleback | 17                            | 35                     | 48.6%
-Oakland    | Shotgun    | 13                            | 35                     | 37.1%
-Oakland    | I-Form     | 4                             | 35                     | 11.4%
-Oakland    | Dual TE    | 9                             | 35                     | 25.7%
-Oakland    | Triple TE  | 5                             | 35                     | 14.3%
+Team       | Formation  | Successful Plays w/ Form. | Total Successful Plays | % Successful w/ Form.
+-----------|------------|---------------------------|------------------------|----------------------
+Oakland    | Singleback | 17                        | 35                     | 48.6%
+Oakland    | Shotgun    | 13                        | 35                     | 37.1%
+Oakland    | I-Form     | 4                         | 35                     | 11.4%
+Oakland    | Dual TE    | 9                         | 35                     | 25.7%
+Oakland    | Triple TE  | 5                         | 35                     | 14.3%
 
 <BR>
 
@@ -235,23 +235,23 @@ In terms of total successful plays, Green Bay was indeed most productive when th
 But these numbers reflect the raw totals of these formation uses.  Yes, Green Bay had the highest number of effective plays when in the Shotgun, but they also used Shotgun over _four times_ as much as the next major formation.  We want to also see which sets each team was most efficiently successful in.
 
 ###### Green Bay Formation Efficiency
-Team       | Formation  | Successful Plays w/ Formation | Total Plays w/ Formation | Formation Efficiency
------------|------------|-------------------------------|--------------------------|---------------------
-Green Bay  | Shotgun    | 33                            | 62                       | 53.2%
-Green Bay  | I-Form     | 4                             | 14                       | 28.6%
-Green Bay  | Singleback | 2                             | 8                        | 25.0%
+Team       | Formation  | Successful Plays w/ Form. | Total Plays w/ Form. | Form. Efficiency
+-----------|------------|---------------------------|----------------------|-----------------
+Green Bay  | Shotgun    | 33                        | 62                   | 53.2%
+Green Bay  | I-Form     | 4                         | 14                   | 28.6%
+Green Bay  | Singleback | 2                         | 8                    | 25.0%
 
 <BR>
 
 
 ###### Oakland Formation Efficiency
-Team       | Formation  | Successful Plays w/ Formation | Total Successful Plays | Formation Efficiency
------------|------------|-------------------------------|------------------------|----------------------
-Oakland    | Singleback | 17                            | 37                     | 46.0%
-Oakland    | Shotgun    | 13                            | 37                     | 35.1%
-Oakland    | I-Form     | 4                             | 7                      | 57.1%
-Oakland    | Dual TE    | 9                             | 20                     | 45.0%
-Oakland    | Triple TE  | 5                             | 14                     | 35.7%
+Team       | Formation  | Successful Plays w/ Form. | Total Plays w/ Form. | Form. Efficiency
+-----------|------------|---------------------------|----------------------|-----------------
+Oakland    | Singleback | 17                        | 37                   | 46.0%
+Oakland    | Shotgun    | 13                        | 37                   | 35.1%
+Oakland    | I-Form     | 4                         | 7                    | 57.1%
+Oakland    | Dual TE    | 9                         | 20                   | 45.0%
+Oakland    | Triple TE  | 5                         | 14                   | 35.7%
 
 
 I think this presents us a more insightful glance into how these teams had the success they did in their respective games.  Green Bay not only used Shotgun on almost three quarters of all its snaps, but converted over half of those plays into a "successful" result.  With a large sample size of 62 plays in a single game, we can feel fairly confident in saying that Green Bay was probably justified in 'feeding' the offense the ball through the efficient passes of QB Rodgers.  
@@ -291,7 +291,7 @@ Finally, let's inspect the efficiency of each personnel grouping for both teams.
 <BR>
 
 ###### Green Bay Personnel Efficiency
-Team      | Personnel | Successful Plays w/ Per. | Total Plays w/ Personnel| Personnel Efficiency
+Team      | Personnel | Successful Plays w/ Per. | Total Plays w/ Personnel | Personnel Efficiency
 ----------|-----------|--------------------------|------------------------|---------------------
 Green Bay | 00        | 7                        | 15                     | 46.7%
 Green Bay | 01        | 22                       | 42                     | 52.4%
@@ -303,7 +303,7 @@ Green Bay | 20        | 1                        | 1                      | 100%
 <BR>
 
 ###### Oakland Personnel Efficiency
-Team      | Personnel | Successful Plays w/ Per. | Total Plays w/ Personnel| Personnel Efficiency
+Team      | Personnel | Successful Plays w/ Per. | Total Plays w/ Personnel | Personnel Efficiency
 ----------|-----------|--------------------------|------------------------|----------------------
 Oakland   | 6 OL      | 20                       | 42                     | 47.2%
 Oakland   | 01        | 1                        | 1                      | 100%
