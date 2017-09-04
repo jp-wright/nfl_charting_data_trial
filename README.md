@@ -135,7 +135,7 @@ Though it is important to realize that these formations are used hundreds of tim
 
 Let's take a quick look at the major formation tendencies of both teams from the games above.
 
-##### Formation Breakdown (Sung to the tune of _Communication Breakdown_ by Led Zeppelin)
+#### Formation Breakdown
 
 ###### Green Bay Formations
 Team        | Formation     | Uses | Total Plays | % Usage
@@ -144,14 +144,16 @@ Green Bay   | Shotgun       | 62   | 86          | 72.1%
 Green Bay   | I-Form        | 14   | 86          | 16.3%
 Green Bay   | Singleback    | 8    | 86          | 9.3%
 
-<BR>
-
 ###### Oakland Formations
 Team        | Formation     | Uses | Total Plays | % Usage
 ------------|---------------|------|-------------|---------
 Oakland     | Shotgun       | 37   | 82          | 45.1%
 Oakland     | Singleback    | 37   | 82          | 45.1%
 Oakland     | I-Form        | 7    | 82          | 8.5%
+
+<BR>
+
+![GB and Oak Formations](images/GB-Oak_formation.png)
 
 <BR>
 
@@ -213,6 +215,11 @@ Oakland     | 10            | 1    | 82          | 1.2%
 Oakland     | 01            | 1    | 82          | 1.2%
 
 <BR>
+
+![GB and Oak Personnel](images/GB-Oak_personnel.png)
+
+
+On the far left of the personnel groupings -- "00" -- is where we have the most (5) WR.  As we go further right we gradually have fewer receivers and more RB and TE.  So, seeing the concentration of a team's personnel groupings can tell us visually about that team's tendencies: taller bars on the left suggest a heavier passing team while taller bars on the right suggest a more prevalent running team.
 
 Here again we see the team identities outlined above emerge in the personnel usage for each offense.  The Packers were in what's known as an "empty set" -- using no RB -- in well _over_ half (67.5%) of their snaps!  With an empty set, we know the play will be a pass and not a run.  Thus Green Bay is overtly advertising "we are going to pass" on almost half their snaps.  Obviously Mike McCarthy's descent from the West Coast coaching tree plays into his willingness to be pass happy, but we have to assume the biggest factor is that he has one of the best QBs of this generation in Aaron Rodgers.  It is a reasonable approach to utilize one of the game's best players as much as possible.  
 

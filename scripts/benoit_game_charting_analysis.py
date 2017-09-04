@@ -1,6 +1,8 @@
 import pandas as pd
 import numpy as np
 import datetime as dte
+import matplotlib.pyplot as plt
+import seaborn as sns
 # import pickle
 
 
@@ -51,7 +53,7 @@ def group_v_combined_mean():
 
 
 
-def get_percent_personnel_use(df, value, team='both'):
+def get_percent_personnel_use(df, value, team='both', print_me=True):
     """Can choose 'Formation' or 'Personnel' col.  Must pass in as string representing the column name for that value"""
 
     value = value.lower()
@@ -64,12 +66,14 @@ def get_percent_personnel_use(df, value, team='both'):
         total = df.shape[0]
 
     perc = successes / total if total > 0 else 0
-    print("Plays with {v}: {s} \nTotal plays: {t} \n{s}/{t} = {p:.2f}%".format(v=value, s=successes, t=total, p=perc*100))
+    if print_me:
+        print('Team: {t}'.format(t=team))
+        print("Plays with {v}: {s} \nTotal plays: {t} \n{s}/{t} = {p:.2f}%".format(v=value, s=successes, t=total, p=perc*100))
 
-    return None
+    return perc
 
 
-def get_percent_total_success_with_personnel(df, value, result='Successful', team='both'):
+def get_percent_total_success_with_personnel(df, value, result='Successful', team='both', print_me=True):
     """Can pass in a formation for personnel, 'Successful' or 'Explosive' for result.  Must pass in as string representing the column name for that value.  Returns percent of all successful plays that happened to be from this formation/personnel"""
 
     value = value.lower()
@@ -85,36 +89,76 @@ def get_percent_total_success_with_personnel(df, value, result='Successful', tea
         total = df[df[result+'_Play'] == 1].shape[0]
 
     perc = successes / total if total > 0 else 0
-    print("Successful plays with {v}: {s} \nTotal successful plays: {t} \n{s}/{t} = {p:.2f}%".format(v=value, s=successes, t=total, p=perc*100))
+    if print_me:
+        print('Team: {t}'.format(t=team))
+        print("Successful plays with {v}: {s} \nTotal successful plays: {t} \n{s}/{t} = {p:.2f}%".format(v=value, s=successes, t=total, p=perc*100))
 
-    return None
+    return perc
 
 
-def get_percent_plays_with_personnel_that_succeeded(df, value, result='Successful', team='both'):
+def get_percent_plays_with_personnel_that_succeeded(df, value, result='Successful', team='both', print_me=True):
     """Can pass in a formation for personnel, 'Successful' or 'Explosive' for result.  Must pass in as string representing the column name for that value. returns percent of all plays of a given formation/personnel that were successful"""
 
     value = value.lower()
     col = 'Formation' if value in ['singleback', 'shotgun', 'i-form', 'dual te', 'triple te'] else 'Personnel'
     if not team == 'both':
-        print('Team: {t}'.format(t=team))
         team_mask = (df[result+'_Play'] == 1) & (df['Team'] == team)
         successes = df.loc[team_mask & (df[col].str.lower().str.contains(value))].shape[0]
         total = df[(df[col].str.lower().str.contains(value)) & (df['Team'] == team)].shape[0]
     else:
-        print("All teams")
         successes = df.loc[(df[result+'_Play'] == 1) & (df[col].str.lower().str.contains(value))].shape[0]
         total = df[df[col].str.lower().str.contains(value)].shape[0]
 
     perc = successes / total if total > 0 else 0
 
-    print("Successful plays with {v}: {s} \nTotal plays with {v}: {t} \n{s}/{t} = {p:.2f}%".format(v=value, s=successes, t=total, p=perc*100))
+    if print_me:
+        print('Team: {t}'.format(t=team))
+        print("Successful plays with {v}: {s} \nTotal plays with {v}: {t} \n{s}/{t} = {p:.2f}%".format(v=value, s=successes, t=total, p=perc*100))
 
-    return None
+    return perc
 
 
 
-def plot_():
-    pass
+def plot_bars(vals_1, vals_2=None, labels=None, team=None):
+    # if team == 'GB':
+    #     color = 'green'
+    # elif team == 'OAK':
+    #     color = 'grey'
+    # else:
+    #     color = ''
+    perc_axis = np.arange(0, .7, .1)
+    fig = plt.figure(figsize=(8, 8))
+    # plt.title("Formation Usage Comparison")
+    if vals_2:
+        ax1 = fig.add_subplot(1, 2, 1)
+        ax2 = fig.add_subplot(1, 2, 2)
+        ax1.bar(range(len(vals_1)), vals_1, tick_label=labels, color='DarkGreen', edgecolor='#003300', linewidth=1.5, label='Green Bay', zorder=5)
+        ax2.bar(range(len(vals_2)), vals_2, tick_label=labels, color='grey', edgecolor='black', linewidth=1.5, label='Oakland', zorder=5)
+        ax1.set_ylim([0, .6])
+        ax2.set_ylim([0, .6])
+        ax1.set_yticks(perc_axis)
+        ax2.set_yticks(perc_axis)
+        ax1.set_yticklabels([str(int(n*100))+'%' for n in perc_axis])
+        ax2.set_yticklabels([str(int(n*100))+'%' for n in perc_axis])
+        ax1.set_title('Green Bay')
+        ax2.set_title('Oakland')
+        ax1.grid(axis='y', alpha=.6, zorder=0)
+        ax2.grid(axis='y', alpha=.6, zorder=0)
+    else:
+        ax = fig.add_subplot(1, 1, 1)
+        ax.bar(range(len(vals_1)), vals_1, tick_label=labels)
+
+    fig.suptitle("Personnel Usage Comparison")
+    # plt.ylim([0, 1])
+    # plt.legend(loc='best')
+    fig.tight_layout(pad=3)
+    plt.show()
+    plt.close()
+
+
+
+
+
 
 
 if __name__ == '__main__':
@@ -128,15 +172,23 @@ if __name__ == '__main__':
 
     df = load_data('../data/combined_game_charts_cleaned.csv')
 
+    gb_percs, oak_percs = [], []
     for team in ['GB', 'OAK']:
-        # for formation in ['singleback', 'shotgun', 'i-form', 'dual te', 'triple te']:
+        # for formation in ['singleback', 'shotgun', 'i-form']:#, 'dual te', 'triple te']:
         for formation in sorted(df['Personnel'].unique()):
             print(formation)
             # get_percent_total_success_with_personnel(df, formation, team=team)
-            # print('')
-            get_percent_plays_with_personnel_that_succeeded(df, formation, team=team)
+            # get_percent_plays_with_personnel_that_succeeded(df, formation, team=team)
+            val = get_percent_personnel_use(df, formation, team=team, print_me=False)
+            if team == 'GB':
+                gb_percs.append(val)
+            else:
+                oak_percs.append(val)
+
             print('')
 
+    # plot_bars(gb_percs, oak_percs, ['Singleback', 'Shotgun', 'I-form'])
+    plot_bars(gb_percs, oak_percs, sorted(df['Personnel'].unique()))
 
 
     """
