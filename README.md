@@ -219,7 +219,7 @@ Oakland     | 01            | 1    | 82          | 1.2%
 ![GB and Oak Personnel](images/GB-Oak_personnel.png)
 
 
-On the far left of the personnel groupings -- "00" -- is where we have the most (5) WR.  As we go further right we gradually have fewer receivers and more RB and TE.  So, seeing the concentration of a team's personnel groupings can tell us visually about that team's tendencies: taller bars on the left suggest a heavier passing team while taller bars on the right suggest a more prevalent running team.
+On the far left of the personnel groupings -- "00" -- is where we have the most (5) WR.  As we go further right we gradually have fewer receivers and more RBs.  So, seeing the concentration of a team's personnel groupings can tell us visually about that team's tendencies: taller bars on the left suggest a heavier passing team while taller bars on the right suggest a more prevalent running team.
 
 Here again we see the team identities outlined above emerge in the personnel usage for each offense.  The Packers were in what's known as an "empty set" -- using no RB -- in well _over_ half (67.5%) of their snaps!  With an empty set, we know the play will be a pass and not a run.  Thus Green Bay is overtly advertising "we are going to pass" on almost half their snaps.  Obviously Mike McCarthy's descent from the West Coast coaching tree plays into his willingness to be pass happy, but we have to assume the biggest factor is that he has one of the best QBs of this generation in Aaron Rodgers.  It is a reasonable approach to utilize one of the game's best players as much as possible.  
 
@@ -306,11 +306,12 @@ Oakland   | 21        | 1                        | 35                     | 2.9%
 
 <BR>
 
-Looking at total personnel usage, Green Bay saw the most success when using an empty set with one TE.  Behind that came five WR ("5 wide") and one RB with no TE.  In each of these top three formations, the Packers had a minimum of four WR on the field. This is what we'd expect from the analysis above which showed their heavy reliance on the Shotgun formation.  Meanwhile, Oakland saw the greatest volume of successful plays arise from their 6 OL sets, with "eleven" personnel following behind that.   Both teams had a measurable gap in count of successful plays between their top personnel group and the rest of the personnel groupings.  
+![GB and Oak Percent Personnel](images/GB-Oak_personnel_percent_total_success.png)
 
-Finally, let's inspect the efficiency of each personnel grouping for both teams.
+Looking at total personnel usage, Green Bay saw the most success when using an empty set with one TE.  Behind that came the five WR ("00") and one RB with no TE ("10") sets.  In each of these top three formations, the Packers had a minimum of four WR on the field. This is what we'd expect from the analysis above which showed their heavy reliance on the Shotgun formation.  Meanwhile, Oakland saw the greatest volume of successful plays arise from their 6 OL sets, with "11" personnel following behind that.   Both teams had a measurable gap in count of successful plays between their top personnel group and the rest of the personnel groupings.  
 
-<BR>
+Remember, this graph shows the percentage of all successful plays broken down by the personnel group.  It gives us a great glimpse at what a team "likes" to do in order to move the ball overall but it doesn't tell us how efficient each group is at doing so.  So, let's inspect the efficiency of each personnel grouping for both teams.
+
 
 ###### Green Bay Personnel Efficiency
 Team      | Personnel | Successful Plays w/ Per. | Total Plays w/ Personnel | Personnel Efficiency
@@ -350,3 +351,12 @@ First off, discard any groupings that have only one or two plays as their sample
 In general this type of analysis provides a real glance of how teams want to operate, what they value schematically, and what they will turn to in important situations.  It would be exceptionally great to have all this data for every team in every game for the entire season (or many seasons).  If we did, we could establish very informative comparisons that could definitively illustrate just how teams view themselves and, I suspect, it would be neat to see how these "identities" transition both as front offices change as well as roster turnover occurs.  
 
 For example, during their Super Bowl run in 2015, Denver had an historically excellent defense.  Last year, however, they were still effective against the pass but were below average in effectiveness against opposing rushing games.  It's possible that Oakland -- who played against Denver in the game chart above -- was eager to exploit Denver's weakness against the run and opted for more multiple TE and 6 OL sets than normal.  With only one game's data it is impossible to know.  Having an entire season's worth of data would allow us to peer into the true trends and tendencies league-wide as well as marking how drastically a team changes their approach for a given opponent.
+
+With more data, more questions can be answered.  Some of the first questions I'd like to explore are below.
+1. What leads to explosive plays? Do explosive plays come earlier or later in game?  Any correlation?  Do they happen more with certain players or directions of a play? (e.g. behind certain OL?)
+2. What correlates to non-short yardage TDs?
+3. Can we predict sacks by game situation and formation/personnel?
+4. Does shotgun = better passing?  Worse rushing?  What about I-Form?  
+5. Would certain QBs do better throwing to one side of the field?  Is it based more on the targeted WR or the defense?
+6. Do Sacks kill drives at a rate appreciably higher than an incomplete pass/rush for no gain?
+7. Same question for penalties.  And does a sack of -5 yards correlate to different outcomes than an offensive penalty for -5 yards?

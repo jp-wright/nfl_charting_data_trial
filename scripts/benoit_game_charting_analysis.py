@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import datetime as dte
 import matplotlib.pyplot as plt
-import seaborn as sns
+# import seaborn as sns
 # import pickle
 
 
@@ -79,12 +79,10 @@ def get_percent_total_success_with_personnel(df, value, result='Successful', tea
     value = value.lower()
     col = 'Formation' if value in ['singleback', 'shotgun', 'i-form', 'dual te', 'triple te'] else 'Personnel'
     if not team == 'both':
-        print('Team: {t}'.format(t=team))
         team_mask = (df[result+'_Play'] == 1) & (df['Team'] == team)
         successes = df.loc[team_mask & (df[col].str.lower().str.contains(value))].shape[0]
         total = df[team_mask].shape[0]
     else:
-        print("All teams")
         successes = df.loc[(df[result+'_Play'] == 1) & (df[col].str.lower().str.contains(value))].shape[0]
         total = df[df[result+'_Play'] == 1].shape[0]
 
@@ -148,7 +146,7 @@ def plot_bars(vals_1, vals_2=None, labels=None, team=None):
         ax = fig.add_subplot(1, 1, 1)
         ax.bar(range(len(vals_1)), vals_1, tick_label=labels)
 
-    fig.suptitle("Personnel Usage Comparison")
+    fig.suptitle("% of Total Successful Plays by Personnel Groups")
     # plt.ylim([0, 1])
     # plt.legend(loc='best')
     fig.tight_layout(pad=3)
@@ -172,14 +170,16 @@ if __name__ == '__main__':
 
     df = load_data('../data/combined_game_charts_cleaned.csv')
 
+
+
     gb_percs, oak_percs = [], []
     for team in ['GB', 'OAK']:
         # for formation in ['singleback', 'shotgun', 'i-form']:#, 'dual te', 'triple te']:
         for formation in sorted(df['Personnel'].unique()):
-            print(formation)
-            # get_percent_total_success_with_personnel(df, formation, team=team)
+            # print(formation)
+            val = get_percent_total_success_with_personnel(df, formation, team=team, print_me=False)
             # get_percent_plays_with_personnel_that_succeeded(df, formation, team=team)
-            val = get_percent_personnel_use(df, formation, team=team, print_me=False)
+            # val = get_percent_personnel_use(df, formation, team=team, print_me=False)
             if team == 'GB':
                 gb_percs.append(val)
             else:
@@ -189,6 +189,9 @@ if __name__ == '__main__':
 
     # plot_bars(gb_percs, oak_percs, ['Singleback', 'Shotgun', 'I-form'])
     plot_bars(gb_percs, oak_percs, sorted(df['Personnel'].unique()))
+
+
+
 
 
     """

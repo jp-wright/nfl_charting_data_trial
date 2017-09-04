@@ -429,6 +429,13 @@ def parse_data_into_new_cols(df):
         return df
 
 
+    def clean_col_personnel(df):
+        df['Personnel'] = df['Personnel'].astype(str)
+        df.loc[df['Personnel'] == '0', 'Personnel'] = '00'
+        df.loc[df['Personnel'] == '1', 'Personnel'] = '01'
+        df.loc[df['Personnel'] == '2', 'Personnel'] = '02'
+        return df
+
     def add_col_home_road(df):
         if 'Opponent' in df.columns:
             road_mask = df['Opponent'].str.lower().str.contains('at')
@@ -483,6 +490,7 @@ def parse_data_into_new_cols(df):
     df = add_col_sack_TFL_yards(df)
     df = add_col_home_road(df)
     df = clean_col_opponent(df)
+    df = clean_col_personnel(df)
     df = void_kneeldown_yards(df)
     return df
 
