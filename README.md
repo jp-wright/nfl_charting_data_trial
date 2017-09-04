@@ -6,7 +6,11 @@ Given two game charts from one team per game only, a chart of a team's use of a 
 ## Table of Contents
 1. [Dataset](#dataset)
 2. [Successful and Explosive Plays](#successful-and-explosive-plays)
-
+    + [What Makes Plays Successful?](#what-makes-plays-successful?)
+3. [Team Identity and Success](#team-identity-and-success)
+    + [Success by Formation](#success-by-formation)
+    + [Success by Personnel Groups](#success-by-personnel-groups)
+4. [Expanded Considerations](#expanded-considerations)
 
 
 <BR><BR>
@@ -72,7 +76,6 @@ Successful       | 4    | 4.00              | 1     | 50%
 
 <BR>
 
-
 The first thing to note is that while there were more unsuccessful plays (82, 52.6%) than successful (74, 47.4%), the margin was small (8).  This difference was smaller than I expected, to be frank.  I don't know what the exact expected percentages would be, but internally I was expecting something closer to a 2:1 ratio, unsuccessful-to-successful.  While I don't have the entire season's worth of data to investigate, my first hunch is that there are two primary reasons we see a near 1:1 ratio above.
 
 1. Very small sample size.
@@ -103,7 +106,7 @@ Oakland, for example, had five drives which had successful 3rd down conversions.
 
 That said, the point is not to claim that 3rd down conversions account for 50% of all scoring, rather the gist is that 3rd downs are the "drive extending" downs in football and are going to be directly correlated with scoring more points and with surrendering fewer by way of making your opponent drive the ball further to score themselves.  As we see above in the average distances table, the difference between "successful" and "unsuccessful" 3rd downs probably has less to do with how great a single 3rd down play design is, or how great a single team is.  It stands to reason the single biggest predictor of being successful on 3rd down is being successful on 1st down and 2nd down, making 3rd down yardage much smaller to achieve in the first place.
 
-
+<BR>
 
 ### Team Identity and Success
 While the above analysis is likely to stand at a core "football fundamental" level, one thing that's not consistent league-wide is _how_ a team has success.  Admitting premise simplification, we can ask if a team is a power-running of yesteryear team or do they rely on incorporating modern "spread" concepts to advance the ball?  With accurate team-level data we can ask, and answer, such team-level questions.  
@@ -141,6 +144,8 @@ Green Bay   | Singleback    | 8    | 86          | 9.3%
 Oakland     | Shotgun       | 37   | 82          | 45.1%
 Oakland     | Singleback    | 37   | 82          | 45.1%
 Oakland     | I-Form        | 7    | 82          | 8.5%
+
+<BR>
 
 We can see that Green Bay was in Shotgun nearly three quarters of their snaps while Oakland was in less than half of theirs.  In fact, Oakland was perfectly balanced in their split of Shotgun and Singleback.  
 
@@ -260,6 +265,8 @@ Oakland was slightly more efficient in the Singleback than in Shotgun in this ga
 
 Out of curiosity let's do the same quick investigation of personnel groupings.
 
+##### Success by Personnel Groups
+
 ###### Green Bay Successful Personnel Groupings
 Team      | Personnel | Successful Plays w/ Per. | Total Successful Plays | % Successful w/ Per.
 ----------|-----------|--------------------------|------------------------|----------------------
@@ -322,6 +329,8 @@ First off, discard any groupings that have only one or two plays as their sample
 
 
 <BR>
+
+### Expanded Considerations
 
 In general this type of analysis provides a real glance of how teams want to operate, what they value schematically, and what they will turn to in important situations.  It would be exceptionally great to have all this data for every team in every game for the entire season (or many seasons).  If we did, we could establish very informative comparisons that could definitively illustrate just how teams view themselves and, I suspect, it would be neat to see how these "identities" transition both as front offices change as well as roster turnover occurs.  
 
